@@ -1,12 +1,14 @@
 import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
-import QtQuick 6.0
+import QtQuick
 import QtQuick.Shapes
 
 // Bars
 
 Scope {
+
+    Themeswitcher {}
 
     // Set the resolution of your monitor here
 
@@ -15,15 +17,15 @@ Scope {
 
     // Top bar
 
-    PanelWindow {
-        anchors.top: true
-        anchors.left: true
-        anchors.right: true
+    // PanelWindow {
+    //     anchors.top: true
+    //     anchors.left: true
+    //     anchors.right: true
 
-        implicitHeight: 20
-        implicitWidth: 20 // This doesn't apply for some reason
-        color: "#FFFFFF"
-    }
+    //     implicitHeight: 20
+    //     implicitWidth: 20 // This doesn't apply for some reason
+    //     color: "#FFFFFF"
+    // }
 
     // Left Bar
 
