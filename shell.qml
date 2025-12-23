@@ -9,6 +9,7 @@ import QtQuick.Shapes
 Scope {
 
     Themeswitcher {}
+    
 
     // Set the resolution of your monitor here
 
@@ -29,22 +30,22 @@ Scope {
 
     // Left Bar
 
-    PanelWindow {
+    // PanelWindow {
 
-        anchors.left: true
-        implicitHeight: monitorHeight / 1.85
-        implicitWidth: monitorWidth / 36
-        color: "transparent"
-        Rectangle {
-            anchors.fill: parent
+    //     anchors.left: true
+    //     implicitHeight: monitorHeight / 1.85
+    //     implicitWidth: monitorWidth / 36
+    //     color: "transparent"
+    //     Rectangle {
+    //         anchors.fill: parent
 
-            property var r: 255 / 255
-            property var g: 179 / 255
-            property var b: 203 / 255
-            property var a: 1
+    //         property var r: 255 / 255
+    //         property var g: 179 / 255
+    //         property var b: 203 / 255
+    //         property var a: 1
 
-            color: Qt.rgba(r, g, b, a) // In percentage form where 1 is equal to 255
-            radius: 10
-        }
-    }
+    //         color: Qt.rgba(r, g, b, a) // In percentage form where 1 is equal to 255
+    //         radius: 10
+    //     }
+    // }
 }

@@ -4,39 +4,55 @@ import Quickshell.Hyprland
 import QtQuick
 import QtQuick.Shapes
 
-//
+// ListView because this will have lots of items, Loader for conditionally showing thingies, or use the Item.visible thing
 
-Scope {
-    PanelWindow {
-        id: overlay
-        implicitWidth: 100
-        implicitHeight: 100
+ListView {
+    MouseArea {
+        anchors.fill: parent
 
-        color: "transparent"
-
-        // Next, add a shape
-
-        Rectangle {
-            id: mainCircle
-
-            WlrLayershell.layer: WlrLayer.Overlay
-            WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
-            focus: true
-
-            implicitWidth: 100
+        PanelWindow {
+            id: overlay
+            implicitWidth: 80
             implicitHeight: implicitWidth
-            radius: implicitWidth / 2
 
-            color: "grey" // This should be dynamic depending on the background
+            color: "transparent"
 
-            antialiasing: true
+            // Next, add a shape
 
-            Keys.onPressed: {
-                if (event.key === Qt.Key_Control) {
-                    mainCircle.color == "red";
-                }
+            Rectangle {
+                id: mainCircle
+
+                focus: true
+
+                x: 50
+                y: 50
+                implicitWidth: 80
+                implicitHeight: implicitWidth
+
+                radius: implicitWidth / 2
+
+                color: "transparent" // This should be dynamic depending on the background
+
+                antialiasing: true
             }
             // This is essentially done, but this should spawn on an event.
+
+            GlobalShortcut {
+                name: "Themeswitcher"
+                description: "Opens the theme switcher"
+
+                onPressed: {
+                    var open = false;
+                    if (!open) {
+                        mainCircle.color = "red";
+                        open = true;
+                    } else {
+                        mainCircle.color = "transparent";
+                    }
+                }
+
+                onReleased: {}
+            }
         }
     }
 }
