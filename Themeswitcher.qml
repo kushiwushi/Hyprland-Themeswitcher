@@ -8,50 +8,72 @@ import QtQuick.Shapes
 
 ListView {
     MouseArea {
+        id: mousePosition
         anchors.fill: parent
+
+        hoverEnabled: true
 
         PanelWindow {
             id: overlay
+            anchors.left: true
+            anchors.top: true
+
             implicitWidth: 80
             implicitHeight: implicitWidth
 
-            color: "transparent"
+            color: "red"
+
+            focusable: false
 
             // Next, add a shape
 
-            Rectangle {
-                id: mainCircle
+            PopupWindow {
+                id: popup
 
-                focus: true
+                anchor.window: overlay
+                anchor.rect.x: parentWindow.width / 2 - width / 2
+                anchor.rect.y: parentWindow.height
+                width: 500
+                height: 500
+                visible: false
+                color: "transparent"
 
-                x: 50
-                y: 50
-                implicitWidth: 80
-                implicitHeight: implicitWidth
+                // To do
+                // 1. Make popup.visible turn into true on signal
+                // 2. Make popup consume all the space in the monitor to make the circle spawn anywhere (with boundaries)
+                // 3. Fix anchoring relationship between overlay and popup
 
-                radius: implicitWidth / 2
+                Rectangle {
+                    id: mainCircle
 
-                color: "transparent" // This should be dynamic depending on the background
+                    focus: true
 
-                antialiasing: true
-            }
-            // This is essentially done, but this should spawn on an event.
+                    implicitWidth: 80
+                    implicitHeight: implicitWidth
+                    x: 100
+                    y: 100
 
-            GlobalShortcut {
-                name: "Themeswitcher"
-                description: "Opens the theme switcher"
+                    radius: implicitWidth / 2
 
-                onPressed: {
-                    var open = false;
-                    if (!open) {
-                        mainCircle.color = "red";
-                        open = true;
-                    } else {
+                    color: "blue" // This should be dynamic depending on the background
+
+                    antialiasing: true
+                }
+                // This is essentially done, but this should spawn on an event.
+
+                GlobalShortcut {
+                    name: "Themeswitcher"
+                    description: "Opens the theme switcher"
+                    property bool open: false
+
+                    onPressed: {
+                        mainCircle.color = "yellow";
+                    }
+
+                    onReleased: {
                         mainCircle.color = "transparent";
                     }
                 }
-
-                onReleased: {}
             }
         }
     }
