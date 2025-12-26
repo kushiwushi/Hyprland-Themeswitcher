@@ -44,7 +44,7 @@ ListView {
 
                 visible: false
 
-                color: "red"
+                color: "transparent"
 
                 // To do
                 // 3. Fix anchoring relationship between overlay and popup
@@ -79,6 +79,7 @@ ListView {
                     onPressed: {
                         mainCircle.color = "yellow";
                         popup.visible = true;
+                        cursorPositionGetterInstance.running = true;
                     }
 
                     onReleased: {
