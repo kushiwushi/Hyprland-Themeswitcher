@@ -7,21 +7,26 @@ import QtQuick.Shapes
 // ListView because this will have lots of items, Loader for conditionally showing thingies, or use the Item.visible thing
 
 ListView {
+    CursorPositionGetter {
+        id: cursorPositionGetterInstance
+    }
     MouseArea {
         id: mousePosition
+
         anchors.fill: parent
 
         hoverEnabled: true
 
         PanelWindow {
             id: overlay
+
             anchors.left: true
             anchors.top: true
 
             implicitWidth: 80
             implicitHeight: implicitWidth
 
-            color: "red"
+            color: "transparent"
 
             focusable: false
 
@@ -33,14 +38,15 @@ ListView {
                 anchor.window: overlay
                 anchor.rect.x: parentWindow.width / 2 - width / 2
                 anchor.rect.y: parentWindow.height
-                width: 500
-                height: 500
+
+                implicitWidth: 1920
+                implicitHeight: 1080
+
                 visible: false
-                color: "transparent"
+
+                color: "red"
 
                 // To do
-                // 1. Make popup.visible turn into true on signal
-                // 2. Make popup consume all the space in the monitor to make the circle spawn anywhere (with boundaries)
                 // 3. Fix anchoring relationship between overlay and popup
 
                 Rectangle {
@@ -50,12 +56,16 @@ ListView {
 
                     implicitWidth: 80
                     implicitHeight: implicitWidth
-                    x: 100
-                    y: 100
+
+                    property var pos1: cursorPositionGetterInstance.cursorPos[0]
+                    property var pos2: cursorPositionGetterInstance.cursorPos[1]
+
+                    x: pos1 // mousePosition.x
+                    y: pos2 // mousePosition.y
 
                     radius: implicitWidth / 2
 
-                    color: "blue" // This should be dynamic depending on the background
+                    color: "transparent" // This should be dynamic depending on the background
 
                     antialiasing: true
                 }
@@ -68,10 +78,12 @@ ListView {
 
                     onPressed: {
                         mainCircle.color = "yellow";
+                        popup.visible = true;
                     }
 
                     onReleased: {
                         mainCircle.color = "transparent";
+                        popup.visible = false;
                     }
                 }
             }
