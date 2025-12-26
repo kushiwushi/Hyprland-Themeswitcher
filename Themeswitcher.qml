@@ -23,7 +23,7 @@ ListView {
             anchors.left: true
             anchors.top: true
 
-            implicitWidth: 80
+            implicitWidth: 0
             implicitHeight: implicitWidth
 
             color: "transparent"
