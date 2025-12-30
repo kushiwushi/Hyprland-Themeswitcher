@@ -6,87 +6,86 @@ import QtQuick
 
 // ListView because this will have lots of items, Loader for conditionally showing thingies, or use the Item.visible thing
 
-Singleton {
-    ListView {
-        CursorPositionGetter {
-            id: cursorPositionGetterInstance
-        }
-        MouseArea {
-            id: mousePosition
+Scope {
+    id: root
+    CursorPositionGetter {
+        id: cursorPositionGetterInstance
+    }
+    MouseArea {
+        id: mousePosition
 
-            anchors.fill: parent
+        anchors.fill: parent
 
-            hoverEnabled: true
+        hoverEnabled: true
 
-            PanelWindow {
-                id: overlay
+        PanelWindow {
+            id: overlay
 
-                anchors.left: true
-                anchors.top: true
+            anchors.left: true
+            anchors.top: true
 
-                implicitWidth: 0
-                implicitHeight: implicitWidth
+            implicitWidth: 0
+            implicitHeight: implicitWidth
+
+            color: "transparent"
+
+            focusable: false
+
+            // Next, add a shape
+
+            PopupWindow {
+                id: popup
+
+                anchor.window: overlay
+                anchor.rect.x: parentWindow.width / 2 - width / 2
+                anchor.rect.y: parentWindow.height
+
+                implicitWidth: 1920
+                implicitHeight: 1080
+
+                visible: false
 
                 color: "transparent"
 
-                focusable: false
+                // To do
+                // 3. Fix anchoring relationship between overlay and popup
 
-                // Next, add a shape
+                Rectangle {
+                    id: mainCircle
 
-                PopupWindow {
-                    id: popup
+                    focus: true
 
-                    anchor.window: overlay
-                    anchor.rect.x: parentWindow.width / 2 - width / 2
-                    anchor.rect.y: parentWindow.height
+                    implicitWidth: 80
+                    implicitHeight: implicitWidth
 
-                    implicitWidth: 1920
-                    implicitHeight: 1080
+                    property var pos1: cursorPositionGetter.cursorPos[0]
+                    property var pos2: cursorPositionGetter.cursorPos[1]
 
-                    visible: false
+                    x: pos1 // mousePosition.x
+                    y: pos2 // mousePosition.y
 
-                    color: "transparent"
+                    radius: implicitWidth / 2
 
-                    // To do
-                    // 3. Fix anchoring relationship between overlay and popup
+                    color: "transparent" // This should be dynamic depending on the background
 
-                    Rectangle {
-                        id: mainCircle
+                    antialiasing: true
+                }
+                // This is essentially done, but this should spawn on an event.
 
-                        focus: true
+                GlobalShortcut {
+                    name: "Themeswitcher"
+                    description: "Opens the theme switcher"
+                    property bool open: false
 
-                        implicitWidth: 80
-                        implicitHeight: implicitWidth
-
-                        property var pos1: cursorPositionGetterInstance.cursorPos[0]
-                        property var pos2: cursorPositionGetterInstance.cursorPos[1]
-
-                        x: pos1 // mousePosition.x
-                        y: pos2 // mousePosition.y
-
-                        radius: implicitWidth / 2
-
-                        color: "transparent" // This should be dynamic depending on the background
-
-                        antialiasing: true
+                    onPressed: {
+                        mainCircle.color = "yellow";
+                        popup.visible = true;
+                        cursorPositionGetter.running = true;
                     }
-                    // This is essentially done, but this should spawn on an event.
 
-                    GlobalShortcut {
-                        name: "Themeswitcher"
-                        description: "Opens the theme switcher"
-                        property bool open: false
-
-                        onPressed: {
-                            mainCircle.color = "yellow";
-                            popup.visible = true;
-                            cursorPositionGetterInstance.running = true;
-                        }
-
-                        onReleased: {
-                            mainCircle.color = "transparent";
-                            popup.visible = false;
-                        }
+                    onReleased: {
+                        mainCircle.color = "transparent";
+                        popup.visible = false;
                     }
                 }
             }

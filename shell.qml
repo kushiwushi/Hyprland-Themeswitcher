@@ -1,20 +1,16 @@
 import Quickshell
-import Quickshell.Wayland
-import Quickshell.Hyprland
 import QtQuick
-import QtQuick.Shapes
 
 // Bars
 
 Scope {
 
     Themeswitcher {}
-    
 
     // Set the resolution of your monitor here
 
-    property var monitorWidth: 1080
-    property var monitorHeight: 1920
+    // property var monitorWidth: 1080
+    // property var monitorHeight: 1920
 
     // Top bar
 
