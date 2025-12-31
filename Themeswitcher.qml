@@ -35,8 +35,8 @@ Scope {
                 id: popup
 
                 anchor.window: overlay
-                anchor.rect.x: parentWindow.width / 2 - width / 2
-                anchor.rect.y: parentWindow.height
+                anchor.rect.x: overlay.implicitWidth
+                anchor.rect.y: overlay.implicitHeight
 
                 implicitWidth: 1920
                 implicitHeight: 1080
@@ -46,7 +46,7 @@ Scope {
                 color: "transparent"
 
                 // To do
-                // 3. Fix anchoring relationship between overlay and popup
+                // 1. Fix anchoring relationship between overlay and popup
 
                 Rectangle {
                     id: mainCircle
@@ -79,8 +79,15 @@ Scope {
                     onPressed: {
                         mainCircle.color = "yellow";
                         popup.visible = true;
-                        cursorPositionGetter.running = true;
+                        CursorPositionGetter.running = true; // ?
                         root.idk = true;
+
+                        // In here, we need to offset pixels by negative 40 for some reason idk why
+                        mainCircle.x = Number(CursorPositionGetter.cursorPos[0]) - 40;
+                        mainCircle.y = Number(CursorPositionGetter.cursorPos[1]) - 40;
+
+                        console.info(`mainCircle.x: ${mainCircle.x}`);
+                        console.info(`mainCircle.y: ${mainCircle.y}`);
                     }
 
                     onReleased: {

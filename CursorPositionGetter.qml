@@ -17,7 +17,7 @@ Singleton {
     Process {
         id: getCursorPos
         running: true
-        
+
         onRunningChanged: {
             if (themeSwitcher.idk)
                 running = true;
@@ -31,7 +31,6 @@ Singleton {
                 if (cleanedText) {
                     cursorPos = cleanedText.split(/, ?/);
                 }
-                console.info(cleanedText);
             }
         }
     }
