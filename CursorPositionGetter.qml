@@ -3,24 +3,26 @@ pragma Singleton
 import Quickshell
 import Quickshell.Io
 import Quickshell.Hyprland
+import QtQuick
 
 Singleton {
+    id: root
     property var cursorPos: []
 
-    // Errors out for some reason
-    // Themeswitcher {
-    //     id: themeSwitcherInstance
-    // }
-    Process {
-        // Make this snapshot, use an alias i guess
+    Themeswitcher {
+        id: themeSwitcher
+    }
 
+    // The whole thing is kinda flawed and wastes precious CPU cores but it can be optimized.
+    Process {
         id: getCursorPos
         running: true
-        onRunningChanged:
-        // Something like this
-        //  if (themeSwitcherInstance.OnPressed)
-        //    running = true;
-        {}
+        
+        onRunningChanged: {
+            if (themeSwitcher.idk)
+                running = true;
+        }
+
         command: ["sh", "-c", "hyprctl cursorpos"]
 
         stdout: StdioCollector {
@@ -29,6 +31,7 @@ Singleton {
                 if (cleanedText) {
                     cursorPos = cleanedText.split(/, ?/);
                 }
+                console.info(cleanedText);
             }
         }
     }

@@ -1,5 +1,3 @@
-pragma Singleton
-
 import Quickshell
 import Quickshell.Hyprland
 import QtQuick
@@ -8,9 +6,9 @@ import QtQuick
 
 Scope {
     id: root
-    CursorPositionGetter {
-        id: cursorPositionGetterInstance
-    }
+
+    property var idk: true
+
     MouseArea {
         id: mousePosition
 
@@ -58,11 +56,12 @@ Scope {
                     implicitWidth: 80
                     implicitHeight: implicitWidth
 
-                    property var pos1: cursorPositionGetter.cursorPos[0]
-                    property var pos2: cursorPositionGetter.cursorPos[1]
+                    property var posX
+                    property var posY
 
-                    x: pos1 // mousePosition.x
-                    y: pos2 // mousePosition.y
+                    // Position of the main circle
+                    x: posX
+                    y: posY
 
                     radius: implicitWidth / 2
 
@@ -81,6 +80,7 @@ Scope {
                         mainCircle.color = "yellow";
                         popup.visible = true;
                         cursorPositionGetter.running = true;
+                        root.idk = true;
                     }
 
                     onReleased: {
