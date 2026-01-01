@@ -4,77 +4,74 @@ import QtQuick
 
 // ListView because this will have lots of items, Loader for conditionally showing thingies, or use the Item.visible thing
 
-Scope {
+ShellRoot {
     id: root
 
     property var idk: true
 
-    MouseArea {
-        id: mousePosition
+    PanelWindow {
+        id: overlay
 
-        anchors.fill: parent
+        anchors.left: true
+        anchors.top: true
 
-        hoverEnabled: true
+        implicitWidth: 0
+        implicitHeight: implicitWidth
 
-        PanelWindow {
-            id: overlay
+        color: "transparent"
 
-            anchors.left: true
-            anchors.top: true
+        focusable: false
 
-            implicitWidth: 0
-            implicitHeight: implicitWidth
+        // Next, add a shape
+
+        PopupWindow {
+            id: popup
+
+            anchor.window: overlay
+            anchor.rect.x: overlay.implicitWidth
+            anchor.rect.y: overlay.implicitHeight
+
+            implicitWidth: 1920
+            implicitHeight: 1080
+
+            visible: false
 
             color: "transparent"
 
-            focusable: false
+            Rectangle {
+                id: mainCircle
 
-            // Next, add a shape
+                focus: true
 
-            PopupWindow {
-                id: popup
+                implicitWidth: 80
+                implicitHeight: implicitWidth
 
-                anchor.window: overlay
-                anchor.rect.x: overlay.implicitWidth
-                anchor.rect.y: overlay.implicitHeight
+                property var posX
+                property var posY
 
-                implicitWidth: 1920
-                implicitHeight: 1080
+                // Position of the main circle
+                x: posX
+                y: posY
 
-                visible: false
+                radius: implicitWidth / 2
 
-                color: "transparent"
+                color: "transparent" // This should be dynamic depending on the background to prevent usability issues, or a striking color between white and black
 
-                // To do
-                // 1. Fix anchoring relationship between overlay and popup
+                antialiasing: true
 
-                Rectangle {
-                    id: mainCircle
+                MouseArea {
+                    id: mousePosition
 
-                    focus: true
+                    anchors.fill: parent
 
-                    implicitWidth: 80
-                    implicitHeight: implicitWidth
-
-                    property var posX
-                    property var posY
-
-                    // Position of the main circle
-                    x: posX
-                    y: posY
-
-                    radius: implicitWidth / 2
-
-                    color: "transparent" // This should be dynamic depending on the background
-
-                    antialiasing: true
+                    hoverEnabled: true
                 }
-                // This is essentially done, but this should spawn on an event.
 
                 GlobalShortcut {
                     name: "Themeswitcher"
                     description: "Opens the theme switcher"
                     property bool open: false
+                    property int offset: 40
 
                     onPressed: {
                         mainCircle.color = "yellow";
@@ -83,11 +80,9 @@ Scope {
                         root.idk = true;
 
                         // In here, we need to offset pixels by negative 40 for some reason idk why
-                        mainCircle.x = Number(CursorPositionGetter.cursorPos[0]) - 40;
-                        mainCircle.y = Number(CursorPositionGetter.cursorPos[1]) - 40;
 
-                        console.info(`mainCircle.x: ${mainCircle.x}`);
-                        console.info(`mainCircle.y: ${mainCircle.y}`);
+                        mainCircle.x = Number(CursorPositionGetter.cursorPos[0]) - offset;
+                        mainCircle.y = Number(CursorPositionGetter.cursorPos[1]) - offset;
                     }
 
                     onReleased: {
@@ -95,6 +90,8 @@ Scope {
                         popup.visible = false;
                     }
                 }
+
+                CircleChild {}
             }
         }
     }
